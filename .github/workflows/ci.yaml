@@ -17,22 +17,58 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+          from copy import deepcopy
           import json
+          import subprocess
 
-          for path in Path(".").rglob("*.ipynb"):
-              notebook = json.loads(path.read_text())
-              changed = False
+          def clear_output_fields(notebook):
+              cleaned = deepcopy(notebook)
 
-              for cell in notebook.get("cells", []):
+              for cell in cleaned.get("cells", []):
                   if cell.get("cell_type") != "code":
                       continue
 
-                  if cell.get("outputs"):
-                      cell["outputs"] = []
-                      changed = True
+                  cell["outputs"] = []
+                  cell["execution_count"] = None
 
-              if changed:
-                  path.write_text(json.dumps(notebook, indent=1, ensure_ascii=False) + "\n")
+              return cleaned
+
+          tracked_notebooks = subprocess.run(
+              ["git", "ls-files", "*.ipynb"],
+              check=True,
+              capture_output=True,
+              text=True,
+          ).stdout.splitlines()
+
+          before = {}
+          for notebook_path in tracked_notebooks:
+              original = subprocess.run(
+                  ["git", "show", f"HEAD:{notebook_path}"],
+                  check=True,
+                  capture_output=True,
+                  text=True,
+              ).stdout
+              before[notebook_path] = clear_output_fields(json.loads(original))
+
+          for notebook_path in tracked_notebooks:
+              path = Path(notebook_path)
+              notebook = json.loads(path.read_text())
+              cleaned = clear_output_fields(notebook)
+
+              if cleaned != notebook:
+                  path.write_text(json.dumps(cleaned, indent=1, ensure_ascii=False) + "\n")
+
+          changed_notebooks = []
+          for notebook_path in tracked_notebooks:
+              path = Path(notebook_path)
+              after = clear_output_fields(json.loads(path.read_text()))
+
+              if after != before[notebook_path]:
+                  changed_notebooks.append(notebook_path)
+
+          if changed_notebooks:
+              print("Notebook changes other than outputs were detected:")
+              for notebook_path in changed_notebooks:
+                  print(f"- {notebook_path}")
+              raise SystemExit(1)
           PY
-
-          git diff --exit-code -- '*.ipynb'
