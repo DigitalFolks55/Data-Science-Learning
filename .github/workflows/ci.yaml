@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  clear-notebook-outputs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Clear Jupyter notebook outputs
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          for path in Path(".").rglob("*.ipynb"):
+              notebook = json.loads(path.read_text())
+              changed = False
+
+              for cell in notebook.get("cells", []):
+                  if cell.get("cell_type") != "code":
+                      continue
+
+                  if cell.get("outputs"):
+                      cell["outputs"] = []
+                      changed = True
+
+              if changed:
+                  path.write_text(json.dumps(notebook, indent=1, ensure_ascii=False) + "\n")
+          PY
+
+          git diff --exit-code -- '*.ipynb'
