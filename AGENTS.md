@@ -24,6 +24,7 @@ Mainly create materials of jupyter notebook for providing concepts and hands-on 
 
 Use Obsidian-compatible Markdown.
 Update index files to have latest link and descriptions.
+If any changes required for README.md, update it.
 
 ## Dependency Policy
 

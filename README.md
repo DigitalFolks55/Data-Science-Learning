@@ -1,74 +1,87 @@
 # Data-Science-Learning
 
-## 1. Overall
+## Objective
 
-This repository is a personal learning notebook for data science topics. It
-collects Markdown notes and Jupyter notebooks covering Python fundamentals,
-dataframes, statistics, machine learning, deep learning, and time series.
+This repository is a personal data science learning workspace. It summarizes
+required skills for data scientists through Obsidian-compatible Markdown notes
+and Jupyter notebooks that combine concepts with hands-on practice.
 
-The contents are organized as study indexes so each topic can grow over time.
-Some content was generated or refined in collaboration with ChatGPT.
+The material currently covers Python fundamentals, dataframe libraries,
+statistics, machine learning, deep learning, and time series analysis. New
+notebooks should follow the project notebook template:
+[utils/Jupyter notebook template.ipynb](utils/Jupyter%20notebook%20template.ipynb).
 
-## 2. Contents
+## Repository Structure
 
-| Topic | Path | Description |
-| --- | --- | --- |
-| Main index | [index.md](index.md) | Root index for all study areas. |
-| Python | [python/python.md](python/python.md) | Python fundamentals, intermediate and advanced notes, notebooks, and references. |
-| Dataframe | [dataframe/dataframe.md](dataframe/dataframe.md) | Index for dataframe study notes. |
-| Statistics | [statistics/statistics.md](statistics/statistics.md) | Index for statistics study notes. |
-| Machine Learning | [machin_learning/machin_learning.md](machin_learning/machin_learning.md) | Index for machine learning study notes. |
-| Deep Learning | [deep_learning/deep_learning.md](deep_learning/deep_learning.md) | Index for deep learning study notes. |
-| Time Series | [time_series/time_series.md](time_series/time_series.md) | Index for time series study notes. |
+| Path | Description |
+| --- | --- |
+| [index.md](index.md) | Root index for all study areas. |
+| [python/](python/) | Python study materials, including fundamentals, intermediate topics, advanced topics, references, and notebooks. |
+| [dataframe/](dataframe/) | Dataframe study materials for NumPy, Pandas, Polars, and PySpark. |
+| [statistics/](statistics/) | Statistics study materials. |
+| [machin_learning/](machin_learning/) | Machine learning study materials. |
+| [deep_learning/](deep_learning/) | Deep learning study materials. |
+| [time_series/](time_series/) | Time series study materials. |
+| [utils/](utils/) | Shared templates and supporting files. |
+| [.github/workflows/](.github/workflows/) | GitHub Actions workflows for repository checks. |
+| [pyproject.toml](pyproject.toml) | Python project metadata and dependencies. |
+| [uv.lock](uv.lock) | Locked dependency versions managed by `uv`. |
 
-Notebooks are currently stored under the `python/` directory, including Python
-introduction and fundamental syntax notebooks.
+Main topic indexes:
 
-## 3. Environment Set-Up
+| Topic | Index |
+| --- | --- |
+| Python | [python/python.md](python/python.md) |
+| Dataframe | [dataframe/dataframe.md](dataframe/dataframe.md) |
+| Statistics | [statistics/statistics.md](statistics/statistics.md) |
+| Machine Learning | [machin_learning/machin_learning.md](machin_learning/machin_learning.md) |
+| Deep Learning | [deep_learning/deep_learning.md](deep_learning/deep_learning.md) |
+| Time Series | [time_series/time_series.md](time_series/time_series.md) |
 
-This project uses Python 3.12 and `uv` for environment and dependency
-management.
+## Prerequisites and Set-Up
 
-1. Clone the repository and move into it.
+Prerequisites:
 
-   ```bash
-   git clone <repository-url>
-   cd Data-Science-Learning
-   ```
+- Python 3.12 or later
+- `uv` for Python environment and dependency management
+- A Jupyter-capable editor or runtime, such as VS Code, JupyterLab, or Jupyter
+  Notebook
 
-2. Create or sync the virtual environment.
+Set up the repository:
 
-   ```bash
-   uv sync
-   ```
+```bash
+git clone <repository-url>
+cd Data-Science-Learning
+uv sync
+```
 
-3. Register the project environment as a Jupyter kernel.
+Register the project virtual environment as a Jupyter kernel:
 
-   ```bash
-   uv run ipython kernel install --user --env VIRTUAL_ENV "$(pwd)/.venv" --name data-science-learning --display-name "Data Science Learning"
-   ```
+```bash
+uv run ipython kernel install --user --env VIRTUAL_ENV "$(pwd)/.venv" --name data-science-learning --display-name "Data Science Learning"
+```
 
-4. In VS Code or Jupyter, select the `Data Science Learning` kernel when opening
-   notebooks.
+After registration, select the `Data Science Learning` kernel when opening
+notebooks.
 
 If `uv` is not installed, install it first by following the official `uv`
 installation guide.
 
-## 4. How to Use
+## How to Run Notebooks
 
-Start from [index.md](index.md), then open the topic index for the area you want
-to study. For Python, use [python/python.md](python/python.md) to navigate to
-fundamental, intermediate, advanced, reference, and notebook materials.
+1. Open this repository in VS Code, JupyterLab, or Jupyter Notebook.
+2. Start from [index.md](index.md) or a topic index to choose a notebook.
+3. Open the `.ipynb` file.
+4. Select the `Data Science Learning` kernel.
+5. Run notebook cells from top to bottom.
 
-To run the sample Python entry point:
+Example notebooks:
 
-```bash
-uv run python main.py
-```
+- [python/Introduction - Why Python.ipynb](python/Introduction%20-%20Why%20Python.ipynb)
+- [python/fundamental/Python fundamental - Function.ipynb](python/fundamental/Python%20fundamental%20-%20Function.ipynb)
+- [dataframe/NumPy/fundamental/NumPy fundamental - Overview.ipynb](dataframe/NumPy/fundamental/NumPy%20fundamental%20-%20Overview.ipynb)
 
-To work with notebooks, open an `.ipynb` file and select the registered
-`Data Science Learning` kernel.
+For additional kernel setup notes, see
+[python/How to enable jupyter notebook kernel.md](python/How%20to%20enable%20jupyter%20notebook%20kernel.md).
 
-GitHub Actions runs `.github/workflows/ci.yaml` on push and pull request. The CI
-job clears Jupyter notebook outputs and fails if notebook changes other than
-outputs are detected.
+* Materials are created with the support of Codex.
